@@ -462,7 +462,7 @@ document.querySelectorAll(".back-to-top").forEach((link) => {
    another GitHub API example (optional)
 -------------------------------- */
 
-const username = "YOUR-USERNAME";
+const username = "KNIGHTsss-labs";
 const repoGrid = document.getElementById("repo-grid");
 
 async function loadRepositories() {
