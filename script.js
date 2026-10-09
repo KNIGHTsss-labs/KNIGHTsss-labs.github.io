@@ -459,12 +459,67 @@ document.querySelectorAll(".back-to-top").forEach((link) => {
 });
 
 /* --------------------------------
+   another GitHub API example (optional)
+-------------------------------- */
+
+const username = "YOUR-USERNAME";
+const repoGrid = document.getElementById("repo-grid");
+
+async function loadRepositories() {
+  try {
+    const response = await fetch(
+      `https://api.github.com/users/${username}/repos?sort=updated&per_page=100`
+    );
+
+    if (!response.ok) {
+      throw new Error("Unable to load repositories");
+    }
+
+    const repos = await response.json();
+
+    repoGrid.replaceChildren();
+
+    repos
+      .filter(repo => !repo.fork)
+      .forEach(repo => {
+        const card = document.createElement("article");
+
+        const title = document.createElement("h3");
+        title.textContent = repo.name;
+
+        const description = document.createElement("p");
+        description.textContent =
+          repo.description || "No description provided.";
+
+        const link = document.createElement("a");
+        link.href = repo.html_url;
+        link.textContent = "View on GitHub ↗";
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        card.append(title, description, link);
+        repoGrid.appendChild(card);
+      });
+
+    if (repos.filter(repo => !repo.fork).length === 0) {
+      repoGrid.textContent = "No repositories found.";
+    }
+  } catch (error) {
+    repoGrid.textContent =
+      "Unable to load repositories. Please visit GitHub directly.";
+    console.error(error);
+  }
+}
+
+
+/* --------------------------------
    Initialize
 -------------------------------- */
 
 function init() {
   updateStatistics();
   renderProjects();
+  loadRepositories();
 
   console.log("Physical Computing Project Hub 2026 initialized.");
   console.log(`Loaded ${projects.length} example projects.`);
