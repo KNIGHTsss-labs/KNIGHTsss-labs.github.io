@@ -1321,6 +1321,42 @@ select:focus-visible {
   transform: translateY(0);
 }
 
+
+#repo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.repo-card {
+  padding: 1.25rem;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  background: #141a22;
+  overflow-wrap: anywhere;
+}
+
+.repo-card h3 {
+  margin-top: 0;
+  color: #b8f56a;
+}
+
+.repo-card p {
+  color: #a7b0be;
+  line-height: 1.6;
+}
+
+.repo-card a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #7dd3fc;
+  text-decoration: none;
+}
+
+.repo-card a:hover {
+  text-decoration: underline;
+}
+
 /* Animation */
 
 @keyframes pulse {
