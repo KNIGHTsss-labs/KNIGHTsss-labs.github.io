@@ -458,56 +458,72 @@ document.querySelectorAll(".back-to-top").forEach((link) => {
   });
 });
 
+
 /* --------------------------------
-   another GitHub API example (optional)
+   GitHub Repositories
 -------------------------------- */
 
 const username = "KNIGHTsss-labs";
 const repoGrid = document.getElementById("repo-grid");
 
 async function loadRepositories() {
+  // Prevent an error if the HTML section does not exist.
+  if (!repoGrid) {
+    console.warn('Missing element: id="repo-grid"');
+    return;
+  }
+
+  repoGrid.textContent = "Loading repositories...";
+
   try {
     const response = await fetch(
       `https://api.github.com/users/${username}/repos?sort=updated&per_page=100`
     );
 
     if (!response.ok) {
-      throw new Error("Unable to load repositories");
+      throw new Error(`GitHub API error: ${response.status}`);
     }
 
     const repos = await response.json();
 
+    const publicRepos = repos.filter((repo) => !repo.fork);
+
     repoGrid.replaceChildren();
 
-    repos
-      .filter(repo => !repo.fork)
-      .forEach(repo => {
-        const card = document.createElement("article");
-
-        const title = document.createElement("h3");
-        title.textContent = repo.name;
-
-        const description = document.createElement("p");
-        description.textContent =
-          repo.description || "No description provided.";
-
-        const link = document.createElement("a");
-        link.href = repo.html_url;
-        link.textContent = "View on GitHub ↗";
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-
-        card.append(title, description, link);
-        repoGrid.appendChild(card);
-      });
-
-    if (repos.filter(repo => !repo.fork).length === 0) {
+    if (publicRepos.length === 0) {
       repoGrid.textContent = "No repositories found.";
+      return;
     }
+
+    publicRepos.forEach((repo) => {
+      const card = document.createElement("article");
+      card.className = "repo-card";
+
+      const title = document.createElement("h3");
+      title.textContent = repo.name;
+
+      const description = document.createElement("p");
+      description.textContent =
+        repo.description || "No description provided.";
+
+      const language = document.createElement("p");
+      language.textContent =
+        repo.language || "Language not specified";
+
+      const link = document.createElement("a");
+      link.href = repo.html_url;
+      link.textContent = "View on GitHub ↗";
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+
+      card.append(title, description, language, link);
+      repoGrid.appendChild(card);
+    });
   } catch (error) {
+    console.error("Failed to load repositories:", error);
+
     repoGrid.textContent =
       "Unable to load repositories. Please visit GitHub directly.";
-    console.error(error);
   }
 }
 
