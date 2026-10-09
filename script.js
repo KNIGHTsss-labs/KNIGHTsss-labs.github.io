@@ -1,11 +1,18 @@
+
 "use strict";
 
 /*
-  PHYSICAL COMPUTING PROJECT 2026
-  Static dashboard — no backend required.
+  PHYSICAL COMPUTING PROJECT HUB 2026
 
-  To add or edit a project, modify the projects array below.
+  Static website — no backend required.
+
+  Edit the projects array to add or update featured projects.
+  GitHub repositories are loaded from the public GitHub API.
 */
+
+/* =========================================
+   1. FEATURED PROJECT DATA
+   ========================================= */
 
 const projects = [
   {
@@ -21,7 +28,7 @@ const projects = [
     color: "#b8f56a",
     background: "#182019",
     info:
-      "Prototype concept: collect sensor readings, process the measurements on a microcontroller, and display the results. Replace this description with the actual sensors, measurements, and test results from your project."
+      "Prototype concept: collect sensor readings, process measurements on a microcontroller, and display the results. Replace this description with the actual sensors, measurements, and test results from your project."
   },
   {
     id: "PC-002",
@@ -36,7 +43,7 @@ const projects = [
     color: "#7dd3fc",
     background: "#141e2b",
     info:
-      "Prototype concept: connect a compatible device to a Wi-Fi network and send readings to a visualization interface. A real remote service or server would be needed for live cross-device data."
+      "Prototype concept: connect a compatible device to a Wi-Fi network and send readings to a visualization interface. A remote service or server would be needed for live cross-device data."
   },
   {
     id: "PC-003",
@@ -51,7 +58,7 @@ const projects = [
     color: "#ffb86b",
     background: "#261d18",
     info:
-      "Planned project: define input conditions, implement the control logic, and test the behavior under different conditions. Update this section when implementation begins."
+      "Planned project: define input conditions, implement control logic, and test behavior under different conditions. Update this section when implementation begins."
   },
   {
     id: "PC-004",
@@ -66,7 +73,7 @@ const projects = [
     color: "#c1a7ff",
     background: "#1e192b",
     info:
-      "Example showcase entry. Replace it with your own completed work, including the actual network measurements, testing method, and evidence of the results."
+      "Example showcase entry. Replace it with your own completed work, including actual network measurements, testing methods, and evidence of results."
   },
   {
     id: "PC-005",
@@ -96,9 +103,13 @@ const projects = [
     color: "#67e8f9",
     background: "#142328",
     info:
-      "Example showcase entry. This static website can visualize sample data, but it does not receive live hardware measurements unless you connect a suitable data source."
+      "Example showcase entry. This static website can visualize sample data, but it does not receive live hardware measurements unless connected to a suitable data source."
   }
 ];
+
+/* =========================================
+   2. STATUS CONFIGURATION
+   ========================================= */
 
 const statusConfig = {
   progress: {
@@ -115,40 +126,51 @@ const statusConfig = {
   }
 };
 
-// DOM elements
-const projectGrid = document.getElementById("projectGrid");
-const searchInput = document.getElementById("searchInput");
-const categoryFilter = document.getElementById("categoryFilter");
-const emptyState = document.getElementById("emptyState");
-const collectionCount = document.getElementById("collectionCount");
+/* =========================================
+   3. DOM ELEMENTS
+   ========================================= */
 
-const totalProjects = document.getElementById("totalProjects");
-const activeProjects = document.getElementById("activeProjects");
-const completedProjects = document.getElementById("completedProjects");
-const totalTechnologies = document.getElementById("totalTechnologies");
+const $ = (id) => document.getElementById(id);
 
-const modal = document.getElementById("projectModal");
-const modalClose = document.getElementById("modalClose");
-const modalDone = document.getElementById("modalDone");
-const modalTitle = document.getElementById("modalTitle");
-const modalCategory = document.getElementById("modalCategory");
-const modalStatus = document.getElementById("modalStatus");
-const modalDescription = document.getElementById("modalDescription");
-const modalTags = document.getElementById("modalTags");
-const modalInfo = document.getElementById("modalInfo");
-const modalCover = document.getElementById("modalCover");
-const modalSymbol = document.getElementById("modalSymbol");
+const projectGrid = $("projectGrid");
+const searchInput = $("searchInput");
+const categoryFilter = $("categoryFilter");
+const emptyState = $("emptyState");
+const collectionCount = $("collectionCount");
 
-const menuToggle = document.getElementById("menuToggle");
-const sidebar = document.getElementById("sidebar");
-const toast = document.getElementById("toast");
+const totalProjects = $("totalProjects");
+const activeProjects = $("activeProjects");
+const completedProjects = $("completedProjects");
+const totalTechnologies = $("totalTechnologies");
+
+const modal = $("projectModal");
+const modalClose = $("modalClose");
+const modalDone = $("modalDone");
+const modalTitle = $("modalTitle");
+const modalProjectId = $("modalProjectId");
+const modalCategory = $("modalCategory");
+const modalStatus = $("modalStatus");
+const modalDescription = $("modalDescription");
+const modalTags = $("modalTags");
+const modalInfo = $("modalInfo");
+const modalCover = $("modalCover");
+const modalSymbol = $("modalSymbol");
+
+const menuToggle = $("menuToggle");
+const sidebar = $("sidebar");
+const toast = $("toast");
+
+const repoGrid = $("repo-grid");
+const repoMessage = $("repo-message");
+const refreshReposButton = $("refreshRepos");
 
 let previousFocus = null;
 let toastTimeout = null;
+let isLoadingRepos = false;
 
-/* --------------------------------
-   Statistics
--------------------------------- */
+/* =========================================
+   4. STATISTICS
+   ========================================= */
 
 function updateStatistics() {
   const uniqueTechnologies = new Set(
@@ -170,9 +192,9 @@ function updateStatistics() {
   ).padStart(2, "0");
 }
 
-/* --------------------------------
-   Project cards
--------------------------------- */
+/* =========================================
+   5. PROJECT CARDS
+   ========================================= */
 
 function createProjectCard(project, index) {
   const status = statusConfig[project.status] || statusConfig.planned;
@@ -181,9 +203,9 @@ function createProjectCard(project, index) {
   card.className = "project-card";
   card.tabIndex = 0;
   card.setAttribute("role", "button");
+  card.setAttribute("aria-haspopup", "dialog");
   card.setAttribute("aria-label", `View project: ${project.title}`);
 
-  // Keep project content as text instead of injecting HTML.
   const art = document.createElement("div");
   art.className = "project-art";
   art.style.setProperty("--art-bg", project.background);
@@ -250,7 +272,7 @@ function createProjectCard(project, index) {
 
   const open = document.createElement("span");
   open.className = "project-open";
-  open.innerHTML = "View details <span aria-hidden='true'>↗</span>";
+  open.textContent = "View details ↗";
 
   footer.append(type, open);
   body.append(meta, title, description, tags, footer);
@@ -261,7 +283,6 @@ function createProjectCard(project, index) {
   });
 
   card.addEventListener("keydown", (event) => {
-    // Prevent keyboard activation from firing twice.
     if (event.target !== card) return;
 
     if (event.key === "Enter" || event.key === " ") {
@@ -273,9 +294,9 @@ function createProjectCard(project, index) {
   return card;
 }
 
-/* --------------------------------
-   Search and category filter
--------------------------------- */
+/* =========================================
+   6. SEARCH AND FILTER
+   ========================================= */
 
 function getFilteredProjects() {
   const query = searchInput.value.trim().toLowerCase();
@@ -308,8 +329,8 @@ function renderProjects() {
     projectGrid.appendChild(createProjectCard(project, index));
   });
 
-  const count = String(filteredProjects.length).padStart(2, "0");
-  collectionCount.textContent = `${count} PROJECTS`;
+  collectionCount.textContent =
+    `${String(filteredProjects.length).padStart(2, "0")} PROJECTS`;
 
   emptyState.hidden = filteredProjects.length !== 0;
   projectGrid.hidden = filteredProjects.length === 0;
@@ -321,9 +342,9 @@ function resetFilters() {
   renderProjects();
 }
 
-/* --------------------------------
-   Project details modal
--------------------------------- */
+/* =========================================
+   7. PROJECT DETAILS MODAL
+   ========================================= */
 
 function openProjectModal(project) {
   previousFocus = document.activeElement;
@@ -331,6 +352,7 @@ function openProjectModal(project) {
   const status = statusConfig[project.status] || statusConfig.planned;
 
   modalTitle.textContent = project.title;
+  modalProjectId.textContent = project.id;
   modalCategory.textContent = project.category.toUpperCase();
 
   modalStatus.className = `status ${status.className}`;
@@ -368,9 +390,9 @@ function closeProjectModal() {
   }
 }
 
-/* --------------------------------
-   Mobile navigation
--------------------------------- */
+/* =========================================
+   8. MOBILE NAVIGATION
+   ========================================= */
 
 function closeSidebar() {
   sidebar.classList.remove("open");
@@ -393,9 +415,9 @@ document.querySelectorAll(".nav-link").forEach((link) => {
   });
 });
 
-/* --------------------------------
-   Toast
--------------------------------- */
+/* =========================================
+   9. TOAST NOTIFICATION
+   ========================================= */
 
 function showToast(message) {
   toast.textContent = message;
@@ -408,17 +430,186 @@ function showToast(message) {
   }, 2200);
 }
 
-/* --------------------------------
-   Event listeners
--------------------------------- */
+/* =========================================
+   10. GITHUB REPOSITORIES
+   ========================================= */
+
+const githubUsername = "KNIGHTsss-labs";
+
+async function loadRepositories() {
+  // Check that the HTML container exists.
+  if (!repoGrid || !repoMessage) {
+    console.error(
+      'GitHub section is missing. Check the "repo-grid" and "repo-message" IDs in index.html.'
+    );
+    return;
+  }
+
+  // Prevent multiple simultaneous requests.
+  if (isLoadingRepos) return;
+
+  isLoadingRepos = true;
+
+  if (refreshReposButton) {
+    refreshReposButton.disabled = true;
+    refreshReposButton.textContent = "Loading...";
+  }
+
+  repoGrid.replaceChildren();
+  repoGrid.hidden = true;
+  repoMessage.hidden = false;
+  repoMessage.textContent = "Loading repositories from GitHub...";
+
+  try {
+    const apiUrl =
+      `https://api.github.com/users/${encodeURIComponent(githubUsername)}/repos?sort=updated&per_page=100`;
+
+    const response = await fetch(apiUrl, {
+      headers: {
+        Accept: "application/vnd.github+json"
+      }
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error(
+          "GitHub user not found. Check the username in script.js."
+        );
+      }
+
+      if (response.status === 403 || response.status === 429) {
+        throw new Error(
+          "GitHub API rate limit reached. Please wait and try again later."
+        );
+      }
+
+      throw new Error(`GitHub API returned HTTP ${response.status}.`);
+    }
+
+    const repos = await response.json();
+
+    if (!Array.isArray(repos)) {
+      throw new Error("Unexpected response from GitHub API.");
+    }
+
+    // Show public repositories that are not forks.
+    const publicRepos = repos.filter((repo) => !repo.fork);
+
+    repoGrid.replaceChildren();
+
+    if (publicRepos.length === 0) {
+      repoMessage.textContent =
+        "No public non-fork repositories were found for this account.";
+      return;
+    }
+
+    publicRepos.forEach((repo) => {
+      repoGrid.appendChild(createRepositoryCard(repo));
+    });
+
+    repoMessage.textContent =
+      `Loaded ${publicRepos.length} public repositories successfully.`;
+
+    repoGrid.hidden = false;
+  } catch (error) {
+    console.error("Failed to load GitHub repositories:", error);
+
+    repoMessage.textContent =
+      `${error.message} You can still visit the GitHub profile directly.`;
+
+    const profileLink = document.createElement("a");
+    profileLink.className = "text-button";
+    profileLink.href = `https://github.com/${githubUsername}`;
+    profileLink.target = "_blank";
+    profileLink.rel = "noopener noreferrer";
+    profileLink.textContent = "Open GitHub profile ↗";
+
+    repoMessage.appendChild(document.createElement("br"));
+    repoMessage.appendChild(profileLink);
+  } finally {
+    isLoadingRepos = false;
+
+    if (refreshReposButton) {
+      refreshReposButton.disabled = false;
+      refreshReposButton.textContent = "Refresh ↻";
+    }
+  }
+}
+
+function createRepositoryCard(repo) {
+  const card = document.createElement("article");
+  card.className = "repo-card";
+
+  const top = document.createElement("div");
+  top.className = "repo-card-top";
+
+  const title = document.createElement("h3");
+  title.textContent = repo.name;
+
+  const visibility = document.createElement("span");
+  visibility.className = "repo-visibility";
+  visibility.textContent = "Public";
+
+  top.append(title, visibility);
+
+  const description = document.createElement("p");
+  description.textContent =
+    repo.description || "No description provided.";
+
+  const meta = document.createElement("div");
+  meta.className = "repo-meta";
+
+  if (repo.language) {
+    const language = document.createElement("span");
+
+    const dot = document.createElement("span");
+    dot.className = "repo-language-dot";
+    dot.setAttribute("aria-hidden", "true");
+
+    language.append(dot, document.createTextNode(repo.language));
+    meta.appendChild(language);
+  } else {
+    const language = document.createElement("span");
+    language.textContent = "Language not specified";
+    meta.appendChild(language);
+  }
+
+  const stars = document.createElement("span");
+  stars.textContent = `☆ ${repo.stargazers_count ?? 0} stars`;
+
+  const forks = document.createElement("span");
+  forks.textContent = `⑂ ${repo.forks_count ?? 0} forks`;
+
+  meta.append(stars, forks);
+
+  const link = document.createElement("a");
+  link.className = "repo-link";
+  link.href = repo.html_url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+
+  const linkText = document.createElement("span");
+  linkText.textContent = "View on GitHub";
+
+  const arrow = document.createElement("span");
+  arrow.textContent = "↗";
+  arrow.setAttribute("aria-hidden", "true");
+
+  link.append(linkText, arrow);
+  card.append(top, description, meta, link);
+
+  return card;
+}
+
+/* =========================================
+   11. EVENT LISTENERS
+   ========================================= */
 
 searchInput.addEventListener("input", renderProjects);
 categoryFilter.addEventListener("change", renderProjects);
 
-document.getElementById("resetFilters").addEventListener(
-  "click",
-  resetFilters
-);
+$("resetFilters").addEventListener("click", resetFilters);
+$("emptyReset").addEventListener("click", resetFilters);
 
 modalClose.addEventListener("click", closeProjectModal);
 modalDone.addEventListener("click", closeProjectModal);
@@ -435,10 +626,11 @@ document.addEventListener("keydown", (event) => {
     closeSidebar();
   }
 
-  // Press / to focus search when not typing in another field.
-  const isTyping = ["INPUT", "TEXTAREA", "SELECT"].includes(
-    document.activeElement?.tagName
-  );
+  const isTyping = [
+    "INPUT",
+    "TEXTAREA",
+    "SELECT"
+  ].includes(document.activeElement?.tagName);
 
   if (
     event.key === "/" &&
@@ -458,79 +650,11 @@ document.querySelectorAll(".back-to-top").forEach((link) => {
   });
 });
 
+refreshReposButton.addEventListener("click", loadRepositories);
 
-/* --------------------------------
-   GitHub Repositories
--------------------------------- */
-
-const username = "KNIGHTsss-labs";
-const repoGrid = document.getElementById("repo-grid");
-
-async function loadRepositories() {
-  // Prevent an error if the HTML section does not exist.
-  if (!repoGrid) {
-    console.warn('Missing element: id="repo-grid"');
-    return;
-  }
-
-  repoGrid.textContent = "Loading repositories...";
-
-  try {
-    const response = await fetch(
-      `https://api.github.com/users/${username}/repos?sort=updated&per_page=100`
-    );
-
-    if (!response.ok) {
-      throw new Error(`GitHub API error: ${response.status}`);
-    }
-
-    const repos = await response.json();
-
-    const publicRepos = repos.filter((repo) => !repo.fork);
-
-    repoGrid.replaceChildren();
-
-    if (publicRepos.length === 0) {
-      repoGrid.textContent = "No repositories found.";
-      return;
-    }
-
-    publicRepos.forEach((repo) => {
-      const card = document.createElement("article");
-      card.className = "repo-card";
-
-      const title = document.createElement("h3");
-      title.textContent = repo.name;
-
-      const description = document.createElement("p");
-      description.textContent =
-        repo.description || "No description provided.";
-
-      const language = document.createElement("p");
-      language.textContent =
-        repo.language || "Language not specified";
-
-      const link = document.createElement("a");
-      link.href = repo.html_url;
-      link.textContent = "View on GitHub ↗";
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-
-      card.append(title, description, language, link);
-      repoGrid.appendChild(card);
-    });
-  } catch (error) {
-    console.error("Failed to load repositories:", error);
-
-    repoGrid.textContent =
-      "Unable to load repositories. Please visit GitHub directly.";
-  }
-}
-
-
-/* --------------------------------
-   Initialize
--------------------------------- */
+/* =========================================
+   12. INITIALIZE
+   ========================================= */
 
 function init() {
   updateStatistics();
@@ -538,7 +662,8 @@ function init() {
   loadRepositories();
 
   console.log("Physical Computing Project Hub 2026 initialized.");
-  console.log(`Loaded ${projects.length} example projects.`);
+  console.log(`Loaded ${projects.length} featured project entries.`);
+  console.log(`GitHub account: ${githubUsername}`);
 }
 
 init();

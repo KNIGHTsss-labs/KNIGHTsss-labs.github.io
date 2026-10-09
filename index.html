@@ -1,327 +1,230 @@
+
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta name="theme-color" content="#0b0d12">
-  <meta name="description"
-        content="Physical Computing Project 2026 — Project showcase and engineering dashboard.">
-
-  <title>Physical Computing 2026 | Project Hub</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+  <meta name="theme-color" content="#0b0f14">
+  <meta name="description" content="Physical Computing Project Hub 2026 — projects, experiments, and GitHub repositories.">
+  <title>Physical Computing | Project Hub 2026</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
-
 <body>
   <div class="app-shell">
-
     <aside class="sidebar" id="sidebar">
-      <a class="brand" href="#overview" aria-label="Project Hub home">
-        <span class="brand-mark">P<span>/</span>C</span>
+      <a class="brand" href="#home" aria-label="Project Hub home">
+        <span class="brand-mark">PC<span>.</span></span>
         <span class="brand-copy">
           <strong>PROJECT HUB</strong>
-          <small>ENGINEERING LAB</small>
+          <small>PHYSICAL COMPUTING / 2026</small>
         </span>
       </a>
 
-      <div class="sidebar-label">WORKSPACE</div>
-
-      <nav class="nav-list" aria-label="Main navigation">
-        <a class="nav-link active" href="#overview">
-          <span class="nav-icon">▦</span>
-          Overview
-          <span class="nav-indicator"></span>
-        </a>
-
-        <a class="nav-link" href="#projects">
-          <span class="nav-icon">◫</span>
-          All Projects
-        </a>
-
-        <a class="nav-link" href="#about">
-          <span class="nav-icon">⌘</span>
-          About the Lab
-        </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#home"><span>⌂</span> Overview</a>
+        <a class="nav-link" href="#projects"><span>▦</span> Projects</a>
+        <a class="nav-link" href="#repositories"><span>⌘</span> GitHub Repositories</a>
+        <a class="nav-link" href="#about"><span>ⓘ</span> About</a>
       </nav>
 
-      <div class="sidebar-label">PROJECT YEAR</div>
-
-      <div class="year-card">
-        <span class="year-dot"></span>
-        <div>
-          <strong>2026 Edition</strong>
-          <small>Physical Computing</small>
-        </div>
-        <span class="year-arrow">↗</span>
-      </div>
-
       <div class="sidebar-bottom">
-        <div class="system-status">
-          <span class="status-pulse"></span>
-          <span>STATIC SITE ONLINE</span>
+        <span class="online-dot"></span>
+        <div>
+          <strong>STATIC DEPLOYMENT</strong>
+          <small>Powered by GitHub Pages</small>
         </div>
-        <p>Built for curious minds.<br>Powered by creativity.</p>
-        <span class="version">PROJECT HUB / V1.0</span>
       </div>
     </aside>
 
-    <main class="main-content" id="overview">
-
+    <main class="main-content" id="home">
       <header class="topbar">
-        <button class="mobile-menu" id="menuToggle"
-                aria-label="Toggle navigation"
-                aria-expanded="false">☰</button>
-
-        <div class="breadcrumb">
-          <span>Workspace</span>
-          <span class="breadcrumb-separator">/</span>
-          <strong>Physical Computing 2026</strong>
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menuToggle"
+            type="button" aria-label="Toggle navigation"
+            aria-expanded="false" aria-controls="sidebar">☰</button>
+          <span class="breadcrumb">WORKSPACE <span>/</span> OVERVIEW</span>
         </div>
-
-        <div class="topbar-right">
-          <span class="live-badge">
-            <span class="status-pulse"></span>
-            SHOWCASE
-          </span>
-          <span class="topbar-year">2026</span>
-        </div>
+        <a class="github-button"
+          href="https://github.com/KNIGHTsss-labs"
+          target="_blank" rel="noopener noreferrer">
+          <span>↗</span> GitHub Profile
+        </a>
       </header>
 
-      <div class="page-container">
-
+      <div class="page-content">
         <section class="hero">
-          <div class="hero-content">
-            <div class="eyebrow">
-              <span class="eyebrow-line"></span>
-              PHYSICAL COMPUTING / 2026
-            </div>
-
-            <h1>Ideas into<br><span>the physical world.</span></h1>
-
-            <p class="hero-description">
-              A collection of projects where hardware meets software.
-              Explore experiments, embedded systems, connected devices,
-              and ideas built beyond the screen.
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="online-dot"></span> PHYSICAL COMPUTING / 2026</div>
+            <h1>Ideas into <span>systems.</span></h1>
+            <p>
+              A central hub for physical computing experiments, embedded
+              systems, networking, and software projects.
             </p>
-
             <div class="hero-actions">
-              <a class="button button-primary" href="#projects">
-                Explore projects <span>↗</span>
-              </a>
-              <a class="button button-secondary" href="#about">
-                About this showcase
-              </a>
+              <a class="primary-button" href="#projects">Explore projects <span>↘</span></a>
+              <a class="text-button" href="#repositories">Browse repositories ↗</a>
             </div>
           </div>
-
-          <div class="hero-visual" aria-label="Microchip illustration">
+          <div class="hero-visual" aria-hidden="true">
             <div class="visual-grid"></div>
-            <div class="orbit orbit-one"></div>
-            <div class="orbit orbit-two"></div>
-            <div class="chip">
-              <div class="chip-inner">
-                <span class="chip-symbol">P</span>
-                <span class="chip-caption">SYSTEM<br>2026</span>
-              </div>
-            </div>
-            <span class="visual-tag tag-top">SYS.INIT()</span>
-            <span class="visual-tag tag-bottom">
-              <span class="status-pulse"></span> HARDWARE × SOFTWARE
-            </span>
+            <div class="visual-ring ring-one"></div>
+            <div class="visual-ring ring-two"></div>
+            <div class="visual-core">PC<span>.</span></div>
+            <span class="visual-label label-top">SYSTEM / 026</span>
+            <span class="visual-label label-bottom">BUILD · TEST · LEARN</span>
             <span class="visual-cross cross-one">+</span>
             <span class="visual-cross cross-two">+</span>
           </div>
-
-          <div class="hero-index">01 — PROJECT OVERVIEW</div>
         </section>
 
         <section class="stats-grid" aria-label="Project statistics">
           <article class="stat-card">
-            <div class="stat-top">
-              <span class="stat-label">TOTAL PROJECTS</span>
-              <span class="stat-icon">◫</span>
-            </div>
-            <div class="stat-value" id="totalProjects">00</div>
-            <div class="stat-foot">Projects in this showcase</div>
+            <span class="stat-label">TOTAL PROJECTS</span>
+            <strong id="totalProjects">00</strong>
+            <span class="stat-note">In this showcase</span>
           </article>
-
           <article class="stat-card">
-            <div class="stat-top">
-              <span class="stat-label">IN DEVELOPMENT</span>
-              <span class="stat-icon orange">◷</span>
-            </div>
-            <div class="stat-value" id="activeProjects">00</div>
-            <div class="stat-foot">Currently being developed</div>
+            <span class="stat-label">IN DEVELOPMENT</span>
+            <strong id="activeProjects">00</strong>
+            <span class="stat-note">Currently in progress</span>
           </article>
-
           <article class="stat-card">
-            <div class="stat-top">
-              <span class="stat-label">COMPLETED</span>
-              <span class="stat-icon green">✓</span>
-            </div>
-            <div class="stat-value" id="completedProjects">00</div>
-            <div class="stat-foot">Projects marked as completed</div>
+            <span class="stat-label">COMPLETED</span>
+            <strong id="completedProjects">00</strong>
+            <span class="stat-note">Marked as completed</span>
           </article>
-
           <article class="stat-card">
-            <div class="stat-top">
-              <span class="stat-label">TECHNOLOGIES</span>
-              <span class="stat-icon purple">⌘</span>
-            </div>
-            <div class="stat-value" id="totalTechnologies">00</div>
-            <div class="stat-foot">Unique technologies used</div>
+            <span class="stat-label">TECHNOLOGIES</span>
+            <strong id="totalTechnologies">00</strong>
+            <span class="stat-note">Unique technologies listed</span>
           </article>
         </section>
 
-        <section class="projects-section" id="projects">
+        <section class="section-block" id="projects">
           <div class="section-heading">
             <div>
-              <div class="eyebrow">
-                <span class="eyebrow-line"></span>
-                THE COLLECTION
-              </div>
-              <h2>Featured projects<span class="heading-period">.</span></h2>
+              <div class="eyebrow">01 / PROJECT DIRECTORY</div>
+              <h2>Featured projects<span class="heading-dot">.</span></h2>
               <p class="section-description">
-                Experiments, prototypes, and solutions built with purpose.
+                Selected experiments and builds. Select a card to view details.
               </p>
             </div>
-
-            <span class="collection-count" id="collectionCount">
-              00 PROJECTS
-            </span>
+            <span class="collection-count" id="collectionCount">00 PROJECTS</span>
           </div>
 
-          <div class="project-toolbar">
+          <div class="filter-bar">
             <label class="search-box">
-              <span class="search-icon">⌕</span>
-              <input type="search" id="searchInput"
-                     placeholder="Search projects, tools..."
-                     aria-label="Search projects">
+              <span aria-hidden="true">⌕</span>
+              <input id="searchInput" type="search"
+                placeholder="Search projects, technologies..."
+                aria-label="Search projects">
               <kbd>/</kbd>
             </label>
 
-            <label class="filter-label" for="categoryFilter">
-              FILTER
+            <label class="filter-select">
+              <span class="sr-only">Filter by category</span>
               <select id="categoryFilter">
                 <option value="all">All categories</option>
-                <option value="IoT">IoT & Networking</option>
-                <option value="Embedded">Embedded Systems</option>
+                <option value="Sensing">Sensing</option>
+                <option value="IoT">IoT</option>
                 <option value="Automation">Automation</option>
-                <option value="Sensing">Sensors & Monitoring</option>
+                <option value="Embedded">Embedded</option>
               </select>
             </label>
+
+            <button class="reset-button" id="resetFilters" type="button">Reset ↺</button>
           </div>
 
-          <div class="project-grid" id="projectGrid">
-            <!-- Project cards are generated by script.js -->
-          </div>
-
+          <div class="project-grid" id="projectGrid"></div>
           <div class="empty-state" id="emptyState" hidden>
-            <span class="empty-icon">⌕</span>
+            <span>⌕</span>
             <h3>No projects found</h3>
-            <p>Try another search term or category.</p>
-            <button class="button button-secondary" id="resetFilters">
-              Reset filters
-            </button>
-          </div>
-
-          <div class="section-footer">
-            <span>END OF COLLECTION</span>
-            <span>MORE IDEAS. MORE POSSIBILITIES. <span class="accent">↗</span></span>
+            <p>Try another keyword or change the category filter.</p>
+            <button class="secondary-button" id="emptyReset" type="button">Clear filters</button>
           </div>
         </section>
 
-        <section class="about-section" id="about">
-          <div class="about-copy">
-            <div class="eyebrow">
-              <span class="eyebrow-line"></span>
-              BEYOND THE SCREEN
+        <section class="section-block" id="repositories">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">02 / SOURCE CODE</div>
+              <h2>GitHub repositories<span class="heading-dot">.</span></h2>
+              <p class="section-description">
+                Public repositories fetched from the GitHub API.
+              </p>
             </div>
-            <h2>Where code meets<br><span>the real world.</span></h2>
-            <p>
-              Physical computing combines software, electronics, and
-              interaction with the environment. This showcase documents
-              the process of turning ideas into working prototypes —
-              one experiment at a time.
-            </p>
+            <a class="text-button" href="https://github.com/KNIGHTsss-labs"
+              target="_blank" rel="noopener noreferrer">View profile ↗</a>
           </div>
 
-          <div class="about-pillars">
-            <article class="pillar">
-              <span class="pillar-number">01</span>
-              <span class="pillar-icon">⌘</span>
-              <h3>Build</h3>
-              <p>Turn concepts into functional prototypes.</p>
-            </article>
-            <article class="pillar">
-              <span class="pillar-number">02</span>
-              <span class="pillar-icon">⌁</span>
-              <h3>Connect</h3>
-              <p>Bring devices, data, and systems together.</p>
-            </article>
-            <article class="pillar">
-              <span class="pillar-number">03</span>
-              <span class="pillar-icon">↗</span>
-              <h3>Improve</h3>
-              <p>Test, learn, and iterate on every idea.</p>
-            </article>
+          <div class="repo-toolbar">
+            <span><span class="online-dot"></span> PUBLIC REPOSITORIES</span>
+            <button class="reset-button" id="refreshRepos" type="button">Refresh ↻</button>
           </div>
+
+          <div id="repo-message" class="repo-message" role="status" aria-live="polite">
+            Loading repositories from GitHub...
+          </div>
+          <div class="repo-grid" id="repo-grid"></div>
+
+          <p class="repo-footnote">
+            Repository cards link to source code. A repository only has a live
+            website if its owner has deployed one separately.
+          </p>
+        </section>
+
+        <section class="about-panel" id="about">
+          <div class="about-icon">PC<span>.</span></div>
+          <div>
+            <div class="eyebrow">03 / ABOUT THIS HUB</div>
+            <h2>Built to document the process.</h2>
+            <p>
+              A static portfolio for documenting projects, experiments,
+              technologies, and source code. Project entries can be edited
+              directly in <code>script.js</code>.
+            </p>
+          </div>
+          <a class="primary-button" href="https://github.com/KNIGHTsss-labs"
+            target="_blank" rel="noopener noreferrer">Connect on GitHub ↗</a>
         </section>
 
         <footer class="footer">
-          <a class="footer-brand" href="#overview">P<span>/</span>C</a>
-          <p>PHYSICAL COMPUTING PROJECT 2026</p>
-          <a href="#overview" class="back-to-top">BACK TO TOP ↑</a>
+          <span>PHYSICAL COMPUTING PROJECT HUB <span class="heading-dot">/</span> 2026</span>
+          <a class="back-to-top" href="#home">Back to top ↑</a>
         </footer>
-
       </div>
     </main>
   </div>
 
-  <!-- Project detail modal -->
-  <div class="modal-backdrop" id="projectModal"
-       role="dialog" aria-modal="true"
-       aria-labelledby="modalTitle" hidden>
-    <div class="modal-panel">
+  <div class="modal-backdrop" id="projectModal" hidden>
+    <section class="project-modal" role="dialog"
+      aria-modal="true" aria-labelledby="modalTitle">
       <button class="modal-close" id="modalClose"
-              aria-label="Close project details">×</button>
+        type="button" aria-label="Close project details">×</button>
 
       <div class="modal-cover" id="modalCover">
-        <span class="modal-cover-label">PROJECT DETAILS / 2026</span>
-        <span class="modal-cover-symbol" id="modalSymbol">P/C</span>
+        <span class="modal-cover-label" id="modalCategory">PROJECT</span>
+        <span class="modal-cover-symbol" id="modalSymbol" aria-hidden="true">⌁</span>
       </div>
 
       <div class="modal-body">
         <div class="modal-meta">
-          <span id="modalCategory"></span>
-          <span id="modalStatus"></span>
+          <span class="project-id" id="modalProjectId">PC-001</span>
+          <span class="status status-planned" id="modalStatus">Planned</span>
         </div>
-
         <h2 id="modalTitle">Project title</h2>
-        <p id="modalDescription"></p>
-
-        <div class="modal-subheading">TECHNOLOGIES & TOOLS</div>
-        <div class="tag-list" id="modalTags"></div>
-
-        <div class="modal-subheading">PROJECT INFORMATION</div>
-        <p class="modal-info" id="modalInfo"></p>
-
-        <button class="button button-primary modal-done" id="modalDone">
-          Close details <span>×</span>
+        <p class="modal-description" id="modalDescription"></p>
+        <div class="modal-tags" id="modalTags"></div>
+        <div class="modal-info-block">
+          <div class="eyebrow">PROJECT NOTES</div>
+          <p id="modalInfo"></p>
+        </div>
+        <button class="primary-button modal-done" id="modalDone" type="button">
+          Close details
         </button>
       </div>
-    </div>
-
-    <!-- Repository grid -->
-     <section id="repositories">
-        <h2>GitHub Repositories</h2>
-        <div id="repo-grid"></div>
     </section>
   </div>
 
