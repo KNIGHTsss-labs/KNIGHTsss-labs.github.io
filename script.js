@@ -160,10 +160,9 @@ const menuToggle = $("menuToggle");
 const sidebar = $("sidebar");
 const toast = $("toast");
 
-/* GitHub repository elements */
-const repoGrid = document.getElementById("repo-grid");
-const repoMessage = document.getElementById("repo-message");
-const refreshReposButton = document.getElementById("refreshRepos");
+const repoGrid = $("repo-grid");
+const repoMessage = $("repo-message");
+const refreshReposButton = $("refreshRepos");
 
 let previousFocus = null;
 let toastTimeout = null;
@@ -278,8 +277,6 @@ function createProjectCard(project, index) {
   footer.append(type, open);
   body.append(meta, title, description, tags, footer);
   card.append(art, body);
-
-const openProjectModal = modalProjectId.textContent === project.id;
 
   card.addEventListener("click", () => {
     openProjectModal(project);
@@ -653,12 +650,6 @@ document.querySelectorAll(".back-to-top").forEach((link) => {
   });
 });
 
-const emptyReset = document.getElementById("emptyReset");
-
-if (emptyReset) {
-  emptyReset.addEventListener("click", resetFilters);
-}
-
 refreshReposButton.addEventListener("click", loadRepositories);
 
 /* =========================================
@@ -671,7 +662,8 @@ function init() {
   loadRepositories();
 
   console.log("Physical Computing Project Hub 2026 initialized.");
-  console.log(`Loaded ${projects.length} example projects.`);
+  console.log(`Loaded ${projects.length} featured project entries.`);
+  console.log(`GitHub account: ${githubUsername}`);
 }
 
 init();
